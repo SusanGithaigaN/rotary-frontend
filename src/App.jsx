@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import Navbar from './components/Navbar/Navbar';
 import User from './components/User/User';
 import Events from './components/User/Events';
+// import Demo from './components/User/Demo';
 
 const Rotary = () => {
   return (
