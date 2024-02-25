@@ -8,8 +8,9 @@ export default function Signup() {
         email: '',
         password: '',
         password_confirmation: '',
+        role: 'admin' // Default role is set to 'member'
     });
-    
+
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -30,7 +31,7 @@ export default function Signup() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ user: formData }),
-                withCredentials: true// Include cookies in the request
+                withCredentials: true // Include cookies in the request
             });
             if (!response.ok) {
                 throw new Error('Failed to sign up');
@@ -44,7 +45,7 @@ export default function Signup() {
     };
 
     return (
-        <section className="bg-gray-50 pt-10 pb-10">
+        <section className="bg-gray-50 pt-10 pb-10 h-full mt-4">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 border-gray-200">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -66,14 +67,28 @@ export default function Signup() {
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                <input type="password" name="password" id="password" value={formData.password} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" required />
+                                <input type="password" name="password" id="password" value={formData.password} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Password" required />
                             </div>
                             <div>
-                                <label htmlFor="password_confirmation" className="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" value={formData.password_confirmation} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Confirm Password" required />
+                                <label htmlFor="password_confirmation" className="block mb-2 text-sm font-medium">Confirm Password</label>
+                                <input type="password" name="password_confirmation" id="password_confirmation" value={formData.password_confirmation} onChange={handleChange} className="bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Confirm Password" required />
+                            </div>
+                            {/* Radio buttons for Role */}
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-900">Role</label>
+                                <div className="flex items-center space-x-4">
+                                    <label htmlFor="member" className="flex items-center space-x-2">
+                                        <input type="radio" id="member" name="role" value="member" checked={formData.role === 'member'} onChange={handleChange} className="text-primary-600 form-radio focus:ring-primary-600" />
+                                        <span className="text-sm text-gray-900">Member</span>
+                                    </label>
+                                    <label htmlFor="admin" className="flex items-center space-x-2">
+                                        <input type="radio" id="admin" name="role" value="admin" checked={formData.role === 'admin'} onChange={handleChange} className="text-primary-600 form-radio focus:ring-primary-600" />
+                                        <span className="text-sm text-gray-900">Other</span>
+                                    </label>
+                                </div>
                             </div>
                             <div className="flex items-center justify-between">
-                                <button type="submit" className="w-full my-6 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign up</button>
+                                <button type="submit" className="w-full my-6 bg-green-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign up</button>
                             </div>
                             <p className="text-sm font-light">
                                 Already have an account? <Link to="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login</Link>

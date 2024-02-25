@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
+import { useNavigate } from 'react-router-dom';
 
 export default function Nav() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
+
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -31,6 +34,27 @@ export default function Nav() {
             }
         }
     }, [isMenuOpen]);
+    const handleLogout = () => {
+        // Send a DELETE request to the logout URL
+        // Include cookies for authentication
+        fetch('http://localhost:3000/logout', {
+            method: 'DELETE',
+            credentials: 'include' 
+        })
+        .then(response => {
+            if (response.ok) {
+                // Redirect the user to homepage after successful logout
+                navigate('/');
+            } else {
+                // Handle error response
+                throw new Error('Logout failed');
+            }
+        })
+        .catch(error => {
+            console.error('Logout failed:', error);
+        });
+    };
+    
 
     return (
         <>
@@ -118,7 +142,7 @@ export default function Nav() {
                                             <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-100" role="menuitem">Payments</a>
                                         </li>
                                         <li>
-                                            <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-100" role="menuitem">Log out</a>
+                                            <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-100" role="menuitem" onClick={handleLogout}>Log out</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -129,7 +153,7 @@ export default function Nav() {
                     </div>
                 </div>
             </nav>
-            {/* <Sidebar /> */}
+            {/* sidebar */}
             <Sidebar />
         </>
     );
